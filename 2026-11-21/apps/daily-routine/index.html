@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Daily Routine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700&family=Hubot+Sans:wght@600;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE: a developer's own repo — calm, exact, quietly proud of the streak.
+   IDEA: the day as a GitHub repo: tasks are issues you close, days are contributions.
+   Two groups = two identities: PromptMayank (engineer) and Mayank Kontey (entrepreneur).
+   COLOUR and TYPE: GitHub canvas (white / #0d1117), one green for done, blue = engineer, orange = entrepreneur; Mona Sans + Hubot Sans.
+   LAYOUT: one 900px column: repo header, progress, view switch, group boxes, contribution graph. */
+:root{color-scheme:light dark;
+--bg:light-dark(#ffffff,#0d1117);--panel:light-dark(#f6f8fa,#161b22);--head:light-dark(#f6f8fa,#010409);
+--line:light-dark(#d0d7de,#30363d);--ink:light-dark(#1f2328,#e6edf3);--mute:light-dark(#59636e,#8b949e);
+--green:light-dark(#1a7f37,#3fb950);--btn:light-dark(#1f883d,#238636);--blue:light-dark(#0969da,#4493f8);
+--purple:light-dark(#8250df,#ab7df8);--red:light-dark(#cf222e,#f85149);--orange:light-dark(#bc4c00,#f0883e);
+--h0:light-dark(#ebedf0,#161b22);--h1:light-dark(#9be9a8,#0e4429);--h2:light-dark(#40c463,#006d32);--h3:light-dark(#30a14e,#26a641);--h4:light-dark(#216e39,#39d353)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Mona Sans",-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;overflow-x:clip}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:6px}
+.top{background:var(--head);border-bottom:1px solid var(--line);padding:14px max(4vw,16px);display:flex;align-items:center;gap:12px}
+.av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--orange));display:grid;place-items:center;color:#fff;font-weight:700;font-size:14px;flex:none}
+.crumb{font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.crumb b{font-weight:600}.crumb span{color:var(--mute)}
+.date{margin-inline-start:auto;color:var(--mute);font-size:14px;white-space:nowrap}
+main{max-width:900px;margin:0 auto;padding:24px max(4vw,16px) 64px}
+h1{font:700 clamp(28px,5vw,40px)/1.05 "Hubot Sans","Mona Sans",sans-serif;margin:0 0 6px;text-wrap:balance}
+.aim{color:var(--mute);margin:0 0 20px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:12px}
+.stat{padding:14px 16px;border-inline-start:1px solid var(--line)}.stat:first-child{border:0}
+.stat b{display:block;font:700 clamp(22px,4vw,30px)/1.1 "Hubot Sans",sans-serif;white-space:nowrap}
+.stat small{color:var(--mute);font-size:13px}
+.bar{height:10px;border-radius:99px;background:var(--h0);overflow:hidden;margin-bottom:24px;border:1px solid var(--line)}
+.bar i{display:block;height:100%;width:0;background:var(--btn);transition:width .4s ease}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin-bottom:14px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{border:0;background:none;padding:0 14px;min-height:36px;cursor:pointer;font-weight:600;font-size:14px;color:var(--mute)}
+.seg button+button{border-inline-start:1px solid var(--line)}
+.seg button[aria-pressed=true]{background:var(--panel);color:var(--ink)}
+.tog{display:flex;gap:8px;align-items:center;color:var(--mute);cursor:pointer;font-size:14px}
+.tog input{width:18px;height:18px;accent-color:var(--btn)}
+.box{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:20px}
+.box.g{border-top:3px solid var(--g)}
+.gh{background:var(--panel);padding:14px 16px;display:flex;flex-wrap:wrap;gap:10px 12px;align-items:center}
+.gav{width:40px;height:40px;border-radius:10px;background:var(--g);color:#fff;display:grid;place-items:center;font:700 14px "Hubot Sans",sans-serif;flex:none}
+.gtx{flex:1 1 220px}
+.gname{font:700 18px/1.2 "Hubot Sans","Mona Sans",sans-serif}
+.gtag{font-size:13px;color:var(--mute)}
+.gstat{text-align:end;font-size:13px;color:var(--mute);white-space:nowrap;font-variant-numeric:tabular-nums}
+.gstat b{display:block;font:700 20px/1.1 "Hubot Sans",sans-serif;color:var(--ink)}
+.gbar{height:4px;background:var(--h0);border-bottom:1px solid var(--line)}
+.gbar i{display:block;height:100%;width:0;background:var(--g);transition:width .4s ease}
+.bh{background:var(--panel);padding:12px 16px;display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;border-bottom:1px solid var(--line);font-size:14px}
+.bh .on{font-weight:600}.bh .off{color:var(--mute)}
+ul{list-style:none;margin:0;padding:0}
+.tl>li{border-top:1px solid var(--line)}.tl>li:first-child{border-top:0}
+.row{display:flex;align-items:center;gap:12px;padding:10px 16px}
+.row:hover{background:var(--panel)}
+.sx{flex:none;min-height:30px;padding:0 10px;border:1px solid var(--line);border-radius:99px;background:none;cursor:pointer;font-size:12px;font-weight:600;color:var(--mute);display:inline-flex;gap:6px;align-items:center;white-space:nowrap;font-variant-numeric:tabular-nums}
+.sx:hover{color:var(--ink)}
+.sx[aria-expanded=true]{background:var(--panel);color:var(--ink)}
+.sx.all{color:var(--green);border-color:color-mix(in srgb,var(--green) 50%,transparent)}
+.sx svg{width:12px;height:12px;transition:transform .2s}.sx[aria-expanded=true] svg{transform:rotate(180deg)}
+.subs{padding:0 16px 12px 58px}
+.sl li{display:flex;align-items:center;gap:8px;padding:1px 0}
+.sck{flex:none;width:36px;height:36px;margin:0 -6px 0 -10px;border:0;background:none;cursor:pointer;display:grid;place-items:center;color:var(--mute)}
+.sck i{width:16px;height:16px;border:1.5px solid currentColor;border-radius:4px;display:grid;place-items:center}
+.sd .sck{color:var(--green)}.sd .sck i{background:var(--green);border-color:var(--green)}
+.sd .sck i::after{content:'';width:8px;height:4px;border:2px solid #fff;border-top:0;border-right:0;transform:translateY(-1px) rotate(-45deg)}
+.st{flex:1;font-size:15px}.sd .st{text-decoration:line-through;color:var(--mute)}
+.sdel{flex:none;width:32px;height:32px;border:0;background:none;border-radius:6px;color:var(--mute);cursor:pointer;font-size:18px;line-height:1;opacity:.5}
+.sdel:hover{opacity:1;color:var(--red)}
+.subs form.sadd{background:none;border:0;padding:6px 0 0;gap:6px}
+.subs form.sadd input{height:36px;flex:1 1 180px}.subs .sadd .btn{height:36px}
+li.life .tt{color:var(--mute)}
+.ck{flex:none;width:44px;height:44px;margin:-6px -8px -6px -10px;border:0;background:none;cursor:pointer;display:grid;place-items:center}
+.ck svg{width:20px;height:20px}
+.ck .o{color:var(--green)}.done .ck .o{color:var(--purple)}
+.mid{flex:1}
+.tt{font-weight:600;font-size:16px}.done .tt{text-decoration:line-through;color:var(--mute)}
+.meta{font-size:13px;color:var(--mute);display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center}
+.lb{display:inline-block;padding:0 8px;border-radius:99px;font-size:12px;font-weight:600;line-height:20px;border:1px solid color-mix(in srgb,var(--c) 40%,transparent);background:color-mix(in srgb,var(--c) 15%,transparent);color:var(--c);white-space:nowrap}
+.gb{display:inline-block;padding:0 8px;border-radius:6px;font-size:12px;font-weight:700;line-height:20px;background:var(--c);color:#fff;white-space:nowrap}
+.dur{font-size:13px;color:var(--mute);white-space:nowrap;font-variant-numeric:tabular-nums}
+.del{flex:none;width:36px;height:36px;border:0;background:none;border-radius:6px;color:var(--mute);cursor:pointer;font-size:20px;line-height:1;opacity:.55}
+.del:hover{opacity:1;color:var(--red);background:color-mix(in srgb,var(--red) 10%,transparent)}
+form{display:flex;flex-wrap:wrap;gap:8px;padding:12px 16px;background:var(--panel);border-top:1px solid var(--line)}
+form input,form select{height:40px;border:1px solid var(--line);border-radius:6px;background:var(--bg);padding:0 10px;font-size:16px}
+form input{flex:1 1 220px}
+.btn{height:40px;padding:0 16px;border-radius:6px;border:1px solid color-mix(in srgb,#000 15%,transparent);background:var(--btn);color:#fff;font-weight:600;cursor:pointer;white-space:nowrap}
+.ghost{background:none;color:var(--mute);border:1px solid var(--line)}
+.ghost.warn{color:var(--red);border-color:var(--red)}
+h2{font:600 18px/1.3 "Mona Sans",sans-serif;margin:0 0 10px}
+.hm{border:1px solid var(--line);border-radius:12px;padding:16px;margin-top:8px}
+.months,.grid{display:grid;grid-template-columns:28px repeat(var(--w),minmax(0,1fr));gap:3px}
+.months{font-size:11px;color:var(--mute);margin-bottom:4px;height:14px}
+.months span{white-space:nowrap;overflow:visible}
+.grid{grid-template-rows:repeat(7,auto);grid-auto-flow:column}
+.grid .dl{font-size:11px;color:var(--mute);line-height:1;align-self:center}
+.c{aspect-ratio:1;border-radius:2px;background:var(--h0);outline:1px solid color-mix(in srgb,var(--ink) 6%,transparent);outline-offset:-1px}
+.c.l1{background:var(--h1)}.c.l2{background:var(--h2)}.c.l3{background:var(--h3)}.c.l4{background:var(--h4)}.c.f{visibility:hidden}
+.c.t{outline:2px solid var(--blue)}
+.legend{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:12px;color:var(--mute)}
+.legend span{display:flex;gap:3px;align-items:center}.legend .c{width:11px}
+.foot{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:20px;color:var(--mute);font-size:13px}
+.toast{position:fixed;left:50%;bottom:20px;transform:translate(-50%,120px);background:var(--ink);color:var(--bg);padding:10px 12px 10px 16px;border-radius:8px;display:flex;gap:12px;align-items:center;font-size:14px;transition:transform .25s;z-index:5}
+.toast.show{transform:translate(-50%,0)}.toast button{background:none;border:0;color:var(--bg);font-weight:700;text-decoration:underline;cursor:pointer;min-height:32px}
+.empty{padding:28px 16px;text-align:center;color:var(--mute)}
+@media(max-width:600px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stat:nth-child(3){border-inline-start:0}.stat:nth-child(n+3){border-top:1px solid var(--line)}.date{display:none}.gstat{text-align:start}.subs{padding-left:24px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="av">MK</div>
+  <div class="crumb"><span>mayank-kontey /</span> <b>daily-routine</b></div>
+  <div class="date" id="date"></div>
+</header>
+<main>
+  <h1 id="title">Today's tasks</h1>
+  <p class="aim">Two modes, one aim: become the world's no. 1 AI podcast. Close every issue today.</p>
+
+  <section class="stats" aria-label="Today's progress">
+    <div class="stat"><b id="sPct">0%</b><small>today done</small></div>
+    <div class="stat"><b id="sHrs">0 / 12h</b><small>work hours</small></div>
+    <div class="stat"><b id="sStreak">0</b><small>day streak</small></div>
+    <div class="stat"><b id="sBest">0</b><small>best streak</small></div>
+  </section>
+  <div class="bar" role="progressbar" aria-label="Work done today" aria-valuemin="0" aria-valuemax="100" id="bar"><i id="barI"></i></div>
+
+  <div class="toolbar">
+    <div class="seg" role="group" aria-label="View">
+      <button type="button" data-view="groups">By group</button>
+      <button type="button" data-view="day">Full day order</button>
+    </div>
+    <label class="tog"><input type="checkbox" id="showLife" checked> Show breaks &amp; meals</label>
+  </div>
+
+  <div id="lists"></div>
+
+  <section class="hm" aria-label="Contribution graph">
+    <h2 id="hmTitle">Contributions</h2>
+    <div class="months" id="months"></div>
+    <div class="grid" id="grid"></div>
+    <div class="legend">
+      <span>A day counts toward your streak at 75% done or more.</span>
+      <span>Less <i class="c"></i><i class="c l1"></i><i class="c l2"></i><i class="c l3"></i><i class="c l4"></i> More</span>
+    </div>
+  </section>
+
+  <div class="foot">
+    <span>Task and subtask ticks reset every day. Your progress is saved in this browser only.</span>
+    <button class="btn ghost" id="reset" type="button">Restore default plan</button>
+  </div>
+</main>
+<div class="toast" id="toast" role="status"><span id="tMsg"></span><button type="button" id="undo">Undo</button></div>
+
+<script>
+{
+const GROUPS={
+ pm:{name:'PromptMayank',short:'PromptMayank',av:'PM',c:'var(--blue)',tag:'Engineer mode · study, programming, AI engineering, development, AI learning',cats:['study','build','ai']},
+ mk:{name:'Mayank Kontey',short:'Mayank Kontey',av:'MK',c:'var(--orange)',tag:'Entrepreneur mode · content, editing, clients, sales, brand, Creation100X',cats:['content','sales','growth']},
+ life:{name:'Daily life',short:'Life',av:'☀',c:'var(--mute)',tag:'Breaks, meals and rest · not counted in work hours',cats:['life']}
+};
+const ORDER=['pm','mk','life'];
+const CATS={study:['study','var(--blue)'],build:['build','var(--purple)'],ai:['ai learning','#1f9e8f'],
+ content:['content','#d4762b'],sales:['sales','#bf3989'],growth:['growth','#9a6700'],life:['break / life','var(--mute)']};
+const CAT2G={study:'pm',build:'pm',ai:'pm',content:'mk',sales:'mk',growth:'mk',life:'life'};
+
+/* [id, name, minutes, group, label, note] — listed in day order */
+const DEF=[
+ ['w1','Wake up, bath + breakfast',30,'life','life','Water first, phone later.'],
+ ['pm1','Study 1: DSA + AI engineering',90,'pm','study','Fresh brain = hardest subject.'],
+ ['b1','Break',15,'life','life','Stand up, walk, water. No reels.'],
+ ['pm2','Study 2: College Backend & Grit',90,'pm','study','Exam topics first.'],
+ ['b2','Break',15,'life','life','Stand up, walk, water.'],
+ ['pm3','Claude Code + AI learning',90,'pm','ai','Build one small thing every day. Try one new AI tool or workflow.'],
+ ['l1','Lunch + rest',45,'life','life','Phone away.'],
+ ['pm4','Study 3: College Maths & Grit',90,'pm','study','Practice problems + past papers.'],
+ ['b3','Break / free time',60,'life','life','Rest, walk, family, friends. Fully off.'],
+ ['mk1','Client outreach: 10 DMs + follow-ups',30,'mk','sales','Send a free sample reel. Follow up on day 3 and day 7.'],
+ ['mk2','Content creation: script + shoot',120,'mk','content','45m script, 75m shoot. AI podcast goal.'],
+ ['b4','Break',30,'life','life','Snack + reset.'],
+ ['mk3','Video editing',90,'mk','content','Edit today’s shoot and post or schedule it.'],
+ ['l2','Dinner',30,'life','life',''],
+ ['mk4','Reading + communication',60,'mk','growth','30m reading, 30m speaking out loud. Podcast voice.'],
+ ['mk5','Sales + marketing',30,'mk','sales','One video or chapter + 3 takeaways for your content.'],
+ ['pm5','Swift (iOS development)',60,'pm','build','Swift basics → SwiftUI → one small app.'],
+ ['w2','Free time / wind down',45,'life','life','No screens in the last 15 min.']
+].map(r=>({id:r[0],name:r[1],min:r[2],grp:r[3],cat:r[4],note:r[5]}));
+/* default subtasks (to-do list inside each task) */
+const SUBS={
+ pm1:['Solve 3 DSA problems','Watch 1 AI engineering lecture','Write notes on 1 concept'],
+ pm2:['Revise 1 exam topic','Solve past-paper questions'],
+ pm3:['Build one small thing with Claude Code','Try one new AI tool or workflow'],
+ pm4:['Practice 10 problems','Solve 1 past-paper section'],
+ pm5:['Finish 1 Swift lesson','Code along in Xcode'],
+ mk1:['Find 10 creators with weak reels','Make 1 free sample reel','Send 10 DMs','Follow up (day 3 / day 7)'],
+ mk2:['Write the script + hook','Set up light + mic','Shoot'],
+ mk3:['Rough cut','Captions + hook text','Sound + colour','Post or schedule'],
+ mk4:['Read 20 pages','Speak 10 min on camera, then rewatch'],
+ mk5:['Watch 1 sales or marketing video','Write 3 takeaways']
+};
+DEF.forEach(t=>t.subs=(SUBS[t.id]||[]).map((x,i)=>({id:t.id+'s'+i,t:x})));
+const cloneDef=()=>DEF.map(t=>({...t,subs:t.subs.map(s=>({...s}))}));
+
+const $=id=>document.getElementById(id);
+const get=(k,f)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):f}catch(e){return f}};
+const put=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+const key=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=m=>m<60?m+' min':(m%60?(m/60).toFixed(1).replace('.0',''):m/60)+' hr';
+const hrs=m=>Math.round(m/6)/10;
+const hhmm=d=>d.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
+
+let tasks=get('mk-routine-tasks-v2',null)||cloneDef();
+tasks.forEach(t=>{if(!GROUPS[t.grp])t.grp=CAT2G[t.cat]||'life';if(!CATS[t.cat])t.cat=GROUPS[t.grp].cats[0];
+ if(!Array.isArray(t.subs)){const d=DEF.find(x=>x.id===t.id);t.subs=d?d.subs.map(s=>({...s})):[]}});
+let open=new Set(get('mk-routine-open',[]));
+const focusSel=s=>{const el=document.querySelector(s);if(el)el.focus()};
+let log=get('mk-routine-log',{});
+let today=key(new Date());
+let showLife=get('mk-routine-life',true);
+let view=get('mk-routine-view','groups');
+let undoItem=null,toastT=null,resetArm=false;
+const day=()=>{const d=log[today]||(log[today]={done:{},pct:0});if(!d.sub)d.sub={};return d};
+
+function check(open){return open
+ ?'<svg class="o" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"/><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Z"/></svg>'
+ :'<svg class="o" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M10.28 6.28a.75.75 0 0 0-1.06-1.06L7 7.44 6.03 6.47a.75.75 0 0 0-1.06 1.06l1.5 1.5a.75.75 0 0 0 1.06 0l2.75-2.75Z" transform="translate(0 1)"/><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Z"/></svg>'}
+
+function sum(list){const d=day();
+ const tot=list.reduce((a,t)=>a+t.min,0),got=list.filter(t=>d.done[t.id]).reduce((a,t)=>a+t.min,0);
+ return {tot,got,n:list.length,done:list.filter(t=>d.done[t.id]).length,pct:tot?Math.round(got/tot*100):0}}
+function stats(){
+ const d=day(),s=sum(tasks.filter(t=>t.grp!=='life'));
+ d.pct=s.pct;
+ return {...s,doneAll:tasks.filter(t=>d.done[t.id]).length};
+}
+function streaks(){
+ const ok=k=>log[k]&&log[k].pct>=75;
+ let cur=0,c=new Date();
+ if(!ok(today))c.setDate(c.getDate()-1);
+ while(ok(key(c))){cur++;c.setDate(c.getDate()-1)}
+ let best=0,run=0,prev=null;
+ Object.keys(log).filter(ok).sort().forEach(k=>{
+  const t=new Date(k+'T12:00');
+  run=(prev&&(t-prev)/864e5<1.5)?run+1:1;best=Math.max(best,run);prev=t});
+ return {cur,best:Math.max(best,cur)};
+}
+
+function row(t,badge){
+ const d=day(),done=!!d.done[t.id],g=GROUPS[t.grp],cat=CATS[t.cat]||CATS.life;
+ const subs=t.subs||[],sd=subs.filter(s=>d.sub[t.id+'/'+s.id]).length,isOpen=open.has(t.id);
+ const showSx=t.grp!=='life'||subs.length||isOpen;
+ const sx=showSx?`<button class="sx${subs.length&&sd===subs.length?' all':''}" type="button" aria-expanded="${isOpen}" aria-label="${isOpen?'Hide':'Show'} subtasks for ${esc(t.name)}">${subs.length?sd+'/'+subs.length+' subtasks':'+ subtasks'}<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`:'';
+ const panel=isOpen?`<div class="subs"><ul class="sl">${subs.map(s=>{const dn=!!d.sub[t.id+'/'+s.id];
+   return `<li class="${dn?'sd':''}" data-sid="${esc(s.id)}"><button class="sck" type="button" aria-pressed="${dn}" aria-label="${dn?'Untick':'Tick'} ${esc(s.t)}"><i></i></button><span class="st">${esc(s.t)}</span><button class="sdel" type="button" aria-label="Delete subtask ${esc(s.t)}">×</button></li>`}).join('')}</ul>
+   <form class="sadd" data-task="${esc(t.id)}" autocomplete="off"><input name="n" placeholder="Add a subtask" aria-label="New subtask for ${esc(t.name)}" required><button class="btn" type="submit">Add</button></form></div>`:'';
+ return `<li class="${done?'done':''} ${t.grp==='life'?'life':''}" data-id="${esc(t.id)}"><div class="row">
+  <button class="ck" type="button" aria-pressed="${done}" aria-label="${done?'Reopen':'Close'} ${esc(t.name)}">${check(!done)}</button>
+  <div class="mid"><div class="tt">${esc(t.name)}</div>
+   <div class="meta">${badge&&t.grp!=='life'?`<span class="gb" style="--c:${g.c}">${esc(g.short)}</span>`:''}<span class="lb" style="--c:${cat[1]}">${esc(cat[0])}</span>${sx}${done?`<span>closed at ${esc(d.done[t.id])}</span>`:(t.note?`<span>${esc(t.note)}</span>`:'')}</div></div>
+  <span class="dur">${fmt(t.min)}</span>
+  <button class="del" type="button" aria-label="Delete ${esc(t.name)}">×</button></div>${panel}</li>`;
+}
+function addForm(groups,ph){
+ const opts=groups.map(g=>{
+  const o=GROUPS[g].cats.map(c=>`<option value="${g}:${c}">${esc(CATS[c][0])}</option>`).join('');
+  return groups.length>1?`<optgroup label="${esc(GROUPS[g].name)}">${o}</optgroup>`:o}).join('');
+ return `<form class="add" autocomplete="off">
+  <input name="n" placeholder="${esc(ph)}" aria-label="Task name" required>
+  <select name="d" aria-label="Duration"><option value="15">15 min</option><option value="30">30 min</option><option value="45">45 min</option><option value="60" selected>1 hr</option><option value="90">1.5 hr</option><option value="120">2 hr</option><option value="150">2.5 hr</option><option value="180">3 hr</option></select>
+  <select name="c" aria-label="Group and label">${opts}</select>
+  <button class="btn" type="submit">Add task</button></form>`;
+}
+const PH={pm:'Add a task, e.g. LeetCode: 3 array problems',mk:'Add a task, e.g. Post a before/after reel',life:'Add a task, e.g. Evening walk'};
+
+function renderList(){
+ let html='';
+ if(view==='day'){
+  const list=tasks.filter(t=>showLife||t.grp!=='life'),s=stats();
+  html=`<section class="box" aria-label="Full day">
+   <div class="bh"><span class="on">${tasks.length-s.doneAll} Open</span><span class="off">${s.doneAll} Closed</span></div>
+   <ul class="tl">${list.map(t=>row(t,true)).join('')||'<li class="empty">No tasks yet. Add one below.</li>'}</ul>
+   ${addForm(ORDER,'Add a task to any group')}</section>`;
+ }else{
+  ORDER.forEach(g=>{
+   if(g==='life'&&!showLife)return;
+   const G=GROUPS[g],list=tasks.filter(t=>t.grp===g),s=sum(list);
+   const right=g==='life'?`<b>${s.done} / ${s.n}</b>done`:`<b>${s.pct}%</b>${hrs(s.got)} / ${hrs(s.tot)}h · ${s.done}/${s.n} closed`;
+   html+=`<section class="box g" style="--g:${G.c}" aria-label="${esc(G.name)}">
+    <div class="gh"><div class="gav">${G.av}</div>
+     <div class="gtx"><div class="gname">${esc(G.name)}</div><div class="gtag">${esc(G.tag)}</div></div>
+     <div class="gstat">${right}</div></div>
+    ${g==='life'?'':`<div class="gbar"><i style="width:${s.pct}%"></i></div>`}
+    <ul class="tl">${list.map(t=>row(t,false)).join('')||'<li class="empty">No tasks yet. Add one below.</li>'}</ul>
+    ${addForm([g],PH[g])}</section>`;
+  });
+ }
+ $('lists').innerHTML=html;
+ document.querySelectorAll('.seg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.view===view));
+}
+
+function renderStats(){
+ const s=stats(),k=streaks();
+ $('sPct').textContent=s.pct+'%';
+ $('sHrs').textContent=hrs(s.got)+' / '+hrs(s.tot)+'h';
+ $('sStreak').textContent=k.cur;$('sBest').textContent=k.best;
+ $('barI').style.width=s.pct+'%';$('bar').setAttribute('aria-valuenow',s.pct);
+ $('title').textContent=s.pct===100?'All work closed today':'Today’s tasks';
+}
+
+function renderHeat(){
+ const W=innerWidth<520?17:26,now=new Date(),start=new Date(now);
+ start.setDate(now.getDate()-now.getDay()-(W-1)*7);
+ document.querySelectorAll('.months,.grid').forEach(e=>e.style.setProperty('--w',W));
+ let cells='',months='<span></span>',lastM=-1,lastCol=-9,count=0;
+ ['','Mon','','Wed','','Fri',''].forEach(l=>cells+=`<span class="dl">${l}</span>`);
+ for(let w=0;w<W;w++){
+  const first=new Date(start);first.setDate(start.getDate()+w*7);
+  const m=first.getMonth();
+  if(m!==lastM&&w-lastCol>=3){months+=`<span>${first.toLocaleDateString([],{month:'short'})}</span>`;lastCol=w}else months+='<span></span>';
+  lastM=m;
+  for(let r=0;r<7;r++){
+   const dt=new Date(start);dt.setDate(start.getDate()+w*7+r);
+   const k=key(dt),p=log[k]?log[k].pct:0,fut=dt>now&&k!==today;
+   const lv=p>=75?4:p>=50?3:p>=25?2:p>0?1:0;if(p>0)count++;
+   cells+=`<i class="c l${lv}${fut?' f':''}${k===today?' t':''}" title="${k}: ${p}% done"></i>`;
+  }
+ }
+ $('grid').innerHTML=cells;$('months').innerHTML=months;
+ $('hmTitle').textContent=count+(count===1?' day':' days')+' of work in the last '+W+' weeks';
+}
+
+function save(){put('mk-routine-tasks-v2',tasks);put('mk-routine-log',log)}
+function all(){renderStats();renderList();renderHeat();save()}
+function toast(msg,canUndo){
+ $('tMsg').textContent=msg;$('undo').style.display=canUndo?'':'none';
+ $('toast').classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>$('toast').classList.remove('show'),5000);
+}
+
+$('lists').addEventListener('click',e=>{
+ const li=e.target.closest('li[data-id]');if(!li)return;
+ const id=li.dataset.id,d=day(),t=tasks.find(x=>x.id===id);if(!t)return;
+ const q=`li[data-id="${CSS.escape(id)}"]`;
+ const sli=e.target.closest('li[data-sid]');
+ if(sli){
+  const sid=sli.dataset.sid,k=id+'/'+sid;
+  if(e.target.closest('.sck')){
+   if(d.sub[k])delete d.sub[k];
+   else{d.sub[k]=hhmm(new Date());
+    if(t.subs.every(s=>d.sub[id+'/'+s.id])&&!d.done[id]){d.done[id]=hhmm(new Date());toast('All subtasks done. Closed “'+t.name+'”',false)}}
+   all();focusSel(`${q} li[data-sid="${CSS.escape(sid)}"] .sck`);
+  }else if(e.target.closest('.sdel')){
+   const i=t.subs.findIndex(s=>s.id===sid);if(i<0)return;
+   undoItem={kind:'sub',id,s:t.subs[i],i};t.subs.splice(i,1);delete d.sub[k];all();
+   toast('Deleted subtask “'+undoItem.s.t+'”',true);
+  }
+  return;
+ }
+ if(e.target.closest('.sx')){
+  if(open.has(id))open.delete(id);else open.add(id);
+  put('mk-routine-open',[...open]);renderList();
+  focusSel(open.has(id)?`${q} .sadd input`:`${q} .sx`);return;
+ }
+ if(e.target.closest('.ck')){
+  if(d.done[id])delete d.done[id];else d.done[id]=hhmm(new Date());
+  all();
+  const b=document.querySelector(`li[data-id="${CSS.escape(id)}"] .ck`);if(b)b.focus();
+ }else if(e.target.closest('.del')){
+  const i=tasks.findIndex(t=>t.id===id);if(i<0)return;
+  undoItem={kind:'task',t:tasks[i],i};tasks.splice(i,1);all();
+  toast('Deleted “'+undoItem.t.name+'”',true);
+ }
+});
+$('lists').addEventListener('submit',e=>{
+ const sf=e.target.closest('form.sadd');
+ if(sf){
+  e.preventDefault();const n=sf.elements.n.value.trim();if(!n)return;
+  const id=sf.dataset.task,t=tasks.find(x=>x.id===id);if(!t)return;
+  t.subs.push({id:'s'+Date.now().toString(36),t:n});all();
+  focusSel(`form.sadd[data-task="${CSS.escape(id)}"] input`);return;
+ }
+ const f=e.target.closest('form.add');if(!f)return;
+ e.preventDefault();const n=f.elements.n.value.trim();if(!n)return;
+ const [grp,cat]=f.elements.c.value.split(':');
+ const t={id:'u'+Date.now().toString(36),name:n,min:+f.elements.d.value,grp,cat,note:'',subs:[]};
+ open.add(t.id);put('mk-routine-open',[...open]);
+ /* keep day order: put the new task before the final wind-down if it exists */
+ const wi=tasks.findIndex(x=>x.id==='w2');
+ if(wi>-1)tasks.splice(wi,0,t);else tasks.push(t);
+ all();toast('Added “'+n+'” to '+GROUPS[grp].name,false);
+ const nf=[...document.querySelectorAll('form.add')].find(x=>[...x.elements.c.options].some(o=>o.value===grp+':'+cat));
+ if(nf)nf.elements.n.focus();
+});
+$('undo').addEventListener('click',()=>{
+ if(!undoItem)return;
+ if(undoItem.kind==='sub'){const t=tasks.find(x=>x.id===undoItem.id);if(t)t.subs.splice(undoItem.i,0,undoItem.s)}
+ else tasks.splice(undoItem.i,0,undoItem.t);
+ undoItem=null;all();
+ $('toast').classList.remove('show');
+});
+document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{view=b.dataset.view;put('mk-routine-view',view);renderList()}));
+$('showLife').checked=showLife;
+$('showLife').addEventListener('change',e=>{showLife=e.target.checked;put('mk-routine-life',showLife);renderList()});
+$('reset').addEventListener('click',e=>{
+ const b=e.currentTarget;
+ if(!resetArm){resetArm=true;b.textContent='Click again to restore';b.classList.add('warn');
+  setTimeout(()=>{resetArm=false;b.textContent='Restore default plan';b.classList.remove('warn')},4000);return}
+ resetArm=false;b.textContent='Restore default plan';b.classList.remove('warn');
+ tasks=cloneDef();all();toast('Default plan restored',false);
+});
+function tick(){
+ const k=key(new Date());if(k!==today){today=k;all()}
+ $('date').textContent=new Date().toLocaleDateString([],{weekday:'long',day:'numeric',month:'long'});
+}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)tick()});
+setInterval(tick,60000);
+let rw=innerWidth;const ro=new ResizeObserver(()=>{if((innerWidth<520)!==(rw<520)){rw=innerWidth;renderHeat()}});ro.observe(document.body);
+tick();all();
+}
+</script>
+</body>
+</html>

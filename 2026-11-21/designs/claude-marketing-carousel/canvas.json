@@ -1,0 +1,82 @@
+{
+ "v": 3,
+ "createdOnFiles": {
+  "v": 1,
+  "at": "2026-11-21T14:32:00Z"
+ },
+ "title": "Mayank Kontey — Sharper marketing with Claude",
+ "launch": {
+  "view": "canvas"
+ },
+ "pages": [],
+ "boards": {
+  "Main.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 1080,
+   "h": 1350,
+   "title": "01 · Cover"
+  },
+  "Slide-02.dc.html": {
+   "x": 1160,
+   "y": 0,
+   "w": 1080,
+   "h": 1350,
+   "title": "02 · Brand context"
+  },
+  "Slide-03.dc.html": {
+   "x": 2320,
+   "y": 0,
+   "w": 1080,
+   "h": 1350,
+   "title": "03 · Customer fears"
+  },
+  "Slide-04.dc.html": {
+   "x": 3480,
+   "y": 0,
+   "w": 1080,
+   "h": 1350,
+   "title": "04 · Ten hooks"
+  },
+  "Slide-05.dc.html": {
+   "x": 4640,
+   "y": 0,
+   "w": 1080,
+   "h": 1350,
+   "title": "05 · Sceptic review"
+  },
+  "Slide-06.dc.html": {
+   "x": 5800,
+   "y": 0,
+   "w": 1080,
+   "h": 1350,
+   "title": "06 · One into five"
+  },
+  "Slide-07.dc.html": {
+   "x": 6960,
+   "y": 0,
+   "w": 1080,
+   "h": 1350,
+   "title": "07 · CTA"
+  }
+ },
+ "order": [
+  "Main.dc.html",
+  "Slide-02.dc.html",
+  "Slide-03.dc.html",
+  "Slide-04.dc.html",
+  "Slide-05.dc.html",
+  "Slide-06.dc.html",
+  "Slide-07.dc.html"
+ ],
+ "notes": {
+  "rowTitle": {
+   "x": 0,
+   "y": -300,
+   "text": "Sharper marketing with Claude · IG carousel · 1080×1350",
+   "kind": "title1",
+   "maxW": 8040
+  }
+ },
+ "designSystems": []
+}

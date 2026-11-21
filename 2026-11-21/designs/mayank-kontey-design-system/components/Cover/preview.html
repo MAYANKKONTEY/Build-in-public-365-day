@@ -1,0 +1,58 @@
+<!-- @dsCard height=288 -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mayank Kontey</title>
+<style>
+  html, body { margin:0; height:100%; }
+  body { background:var(--canvas); color:var(--ink-900); font-family:var(--font-sans); overflow:hidden; }
+  .cover { position:relative; height:288px; overflow:hidden; }
+  .art { position:absolute; top:0; left:480px; width:480px; height:288px; overflow:hidden; }
+  .art svg { display:block; width:480px; height:288px; }
+  .tint { fill:var(--paper-300); }
+  .deep { fill:var(--ink-900); }
+  .glass { fill:var(--glass-surface); }
+  .brand { fill:var(--orange-500); }
+  .blk { rx:var(--radius-glass); }
+  .pill { fill:var(--glass-surface); rx:calc(var(--space-2) / 2); }
+  .words { position:absolute; left:var(--space-6); bottom:var(--space-6); max-width:440px; }
+  .name { margin:0; font-size:84px; line-height:.95; font-weight:800; letter-spacing:-.03em; color:var(--ink-900); }
+  .tag { margin:var(--space-2) 0 0 4px; font-size:14px; line-height:20px; color:var(--ink-700); }
+</style>
+</head>
+<body>
+<div class="cover">
+<div class="art" aria-hidden="true">
+<svg viewBox="0 0 480 288" width="480" height="288">
+<!--
+  blocks      ink-900 184×268 slab bled off the top (the chrome mass) · glass-surface 200×128 laid over the slab's left edge (the frosted card over the render) · paper-300 200×216 bleeding off the right (canvas shadow side) · orange-500 56×56 disc once on the slab edge (the single reflection) · ground paper-200
+  arrangement one tall dark slab with satellites, glass overlapping it the way the card overlaps the render; bottoms aligned space-6 above the edge
+  pattern     pills, from "soft organic glass shapes": space-2-tall glass-surface pills at a space-3 pitch over the paper-300 block, thinning upward
+  scales      gutters/pitch space-3; bottom inset space-6; corners radius-glass; disc rx radius-glass (half of 56); pill rx half of space-2
+-->
+<rect class="tint blk" x="320" y="24" width="200" height="216" rx="28"/>
+<rect class="deep blk" x="144" y="-28" width="184" height="268" rx="28"/>
+<rect class="glass blk" x="64" y="112" width="200" height="128" rx="28"/>
+<rect class="brand" x="272" y="48" width="56" height="56" rx="28" style="rx:var(--radius-glass)"/>
+<rect class="pill" x="352" y="216" width="56" height="16" rx="8"/>
+<rect class="pill" x="424" y="216" width="40" height="16" rx="8"/>
+<rect class="pill" x="344" y="192" width="32" height="16" rx="8"/>
+<rect class="pill" x="392" y="192" width="64" height="16" rx="8"/>
+<rect class="pill" x="360" y="168" width="48" height="16" rx="8"/>
+<rect class="pill" x="424" y="168" width="24" height="16" rx="8"/>
+<rect class="pill" x="352" y="144" width="24" height="16" rx="8"/>
+<rect class="pill" x="400" y="144" width="40" height="16" rx="8"/>
+<rect class="pill" x="376" y="120" width="32" height="16" rx="8"/>
+<rect class="pill" x="432" y="120" width="16" height="16" rx="8"/>
+<rect class="pill" x="392" y="96" width="24" height="16" rx="8"/>
+<rect class="pill" x="408" y="64" width="16" height="16" rx="8"/>
+</svg>
+</div>
+<div class="words">
+<h1 class="name">Mayank Kontey</h1>
+<p class="tag">AI for creators and founders, without the jargon.</p>
+</div>
+</div>
+</body>
+</html>

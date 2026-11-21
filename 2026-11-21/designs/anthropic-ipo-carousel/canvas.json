@@ -1,0 +1,114 @@
+{
+ "v": 3,
+ "createdOnFiles": {
+  "v": 1,
+  "at": "2026-11-21T14:40:00Z"
+ },
+ "title": "Anthropic IPO Decoded \u2014 Carousel + Poster",
+ "launch": {
+  "view": "canvas"
+ },
+ "pages": [],
+ "boards": {
+  "Main.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 1080,
+   "h": 1350,
+   "title": "01 Cover"
+  },
+  "Slide02.dc.html": {
+   "x": 1160,
+   "y": 0,
+   "w": 1080,
+   "h": 1350,
+   "title": "02 One"
+  },
+  "Slide03.dc.html": {
+   "x": 2320,
+   "y": 0,
+   "w": 1080,
+   "h": 1350,
+   "title": "03 Two"
+  },
+  "Slide04.dc.html": {
+   "x": 3480,
+   "y": 0,
+   "w": 1080,
+   "h": 1350,
+   "title": "04 Three"
+  },
+  "Slide05.dc.html": {
+   "x": 4640,
+   "y": 0,
+   "w": 1080,
+   "h": 1350,
+   "title": "05 Four"
+  },
+  "Slide06.dc.html": {
+   "x": 5800,
+   "y": 0,
+   "w": 1080,
+   "h": 1350,
+   "title": "06 Five"
+  },
+  "Slide07.dc.html": {
+   "x": 6960,
+   "y": 0,
+   "w": 1080,
+   "h": 1350,
+   "title": "07 Six"
+  },
+  "Slide08.dc.html": {
+   "x": 8120,
+   "y": 0,
+   "w": 1080,
+   "h": 1350,
+   "title": "08 Seven"
+  },
+  "Poster.dc.html": {
+   "x": 0,
+   "y": 1770,
+   "w": 1080,
+   "h": 1350,
+   "title": "Poster"
+  }
+ },
+ "order": [
+  "Main.dc.html",
+  "Slide02.dc.html",
+  "Slide03.dc.html",
+  "Slide04.dc.html",
+  "Slide05.dc.html",
+  "Slide06.dc.html",
+  "Slide07.dc.html",
+  "Slide08.dc.html",
+  "Poster.dc.html"
+ ],
+ "notes": {
+  "carouselTitle": {
+   "x": 0,
+   "y": -300,
+   "text": "Carousel \u2014 One IPO. Thousands of millionaires.",
+   "kind": "title1",
+   "maxW": 9200
+  },
+  "posterNote": {
+   "x": 1200,
+   "y": 1770,
+   "text": "Poster: single-image post for Instagram / LinkedIn. Figures verified 21 Nov 2026 (Reuters, Bloomberg, NPR, Sacra estimate for the ~2,800).",
+   "w": 520,
+   "size": "m",
+   "fill": "orange"
+  }
+ },
+ "designSystems": [
+  {
+   "title": "Mayank Kontey",
+   "namespace": "mayank-kontey",
+   "artifact": "https://claude.ai/artifact/GhVznUjkejGdU1S5L8kDYv",
+   "version": "1795271520-32f1",
+   "copiedAt": "2026-11-21T14:40:00Z"
+  }
+ ]
+}

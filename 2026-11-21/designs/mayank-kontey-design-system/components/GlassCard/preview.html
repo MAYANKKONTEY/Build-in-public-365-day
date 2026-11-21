@@ -1,0 +1,42 @@
+<!-- @dsCard group="Building blocks" height=330 subtitle="Same card over three backgrounds: why the render behind it matters" -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>GlassCard</title></head>
+<body>
+<div class="mk-preview">
+  <div>
+    <div class="mk-scale" style="--s:.3;width:280px;height:204px">
+      <div class="mk-stage" style="width:936px;height:680px;background:var(--ink-900)">
+        <div class="mk-glass" style="height:680px">
+          <span class="mk-card-mark">MK</span>
+          <div class="mk-card-copy"><p class="mk-numword">One</p><h2 class="mk-title">Feed it your best post</h2><p class="mk-body">Paste one post that worked and ask why it worked.</p></div>
+        </div>
+      </div>
+    </div>
+    <p class="mk-caption"><strong>Render ≈ ink-900 behind:</strong> title 10:1, body 5.1:1. Passes.</p>
+  </div>
+  <div>
+    <div class="mk-scale" style="--s:.3;width:280px;height:204px">
+      <div class="mk-stage" style="width:936px;height:680px;background:var(--ink-700)">
+        <div class="mk-glass" style="height:680px">
+          <span class="mk-card-mark">MK</span>
+          <div class="mk-card-copy"><p class="mk-numword">One</p><h2 class="mk-title">Feed it your best post</h2><p class="mk-body">Paste one post that worked and ask why it worked.</p></div>
+        </div>
+      </div>
+    </div>
+    <p class="mk-caption"><strong>Render ≈ ink-700 behind:</strong> title 6.9:1 passes; body 3.8:1 fails at phone size.</p>
+  </div>
+  <div>
+    <div class="mk-scale" style="--s:.3;width:280px;height:204px">
+      <div class="mk-stage" style="width:936px;height:680px;background:var(--canvas)">
+        <div class="mk-glass" style="height:680px">
+          <span class="mk-card-mark">MK</span>
+          <div class="mk-card-copy"><p class="mk-numword">One</p><h2 class="mk-title">Feed it your best post</h2><p class="mk-body">Paste one post that worked and ask why it worked.</p></div>
+        </div>
+      </div>
+    </div>
+    <p class="mk-caption"><strong>Bare canvas behind:</strong> title 1.9:1, body 1.5:1. Never do this.</p>
+  </div>
+</div>
+</body>
+</html>

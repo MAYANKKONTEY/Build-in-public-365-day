@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;700;800&display=swap');
+
+/* Mayank Kontey: carousel components.
+   Author every slide at 1080 x 1350 (frame tokens); scale the whole slide only to preview. */
+
+body { margin: 0; font-family: var(--font-sans); background: var(--canvas); color: var(--ink-900); }
+
+/* ---------- Slide frame ---------- */
+.mk-slide { position: relative; width: var(--frame-width); height: var(--frame-height); overflow: hidden; background: var(--canvas); font-family: var(--font-sans); color: var(--on-glass); box-sizing: border-box; }
+.mk-slide *, .mk-slide *::before, .mk-slide *::after { box-sizing: border-box; }
+
+/* The hero render. Set background-image to the real chrome / glass render. */
+.mk-render { position: absolute; inset: 0; background-color: var(--canvas); background-size: cover; background-position: center; }
+
+/* PLACEHOLDER renders: stand-ins until a real render is dropped in. Dark mass sits where the type goes. */
+.mk-render--cover { background-image:
+  radial-gradient(ellipse 22% 14% at 68% 24%, rgba(255,255,255,0.9), rgba(255,255,255,0) 70%),
+  radial-gradient(ellipse 9% 6% at 76% 33%, var(--orange-400), rgba(240,133,52,0) 75%),
+  radial-gradient(ellipse 30% 20% at 80% 38%, var(--orange-100), rgba(251,227,206,0) 70%),
+  radial-gradient(ellipse 55% 36% at 62% 34%, var(--ink-700), rgba(70,68,62,0) 72%),
+  radial-gradient(ellipse 125% 75% at 30% 100%, var(--ink-900) 58%, rgba(26,25,22,0) 92%); }
+.mk-render--content { background-image:
+  radial-gradient(ellipse 16% 9% at 40% 20%, rgba(255,255,255,0.9), rgba(255,255,255,0) 70%),
+  radial-gradient(ellipse 7% 5% at 60% 28%, var(--orange-400), rgba(240,133,52,0) 75%),
+  radial-gradient(ellipse 26% 16% at 64% 30%, var(--orange-100), rgba(251,227,206,0) 70%),
+  radial-gradient(ellipse 48% 30% at 50% 30%, var(--ink-700), rgba(70,68,62,0) 72%),
+  radial-gradient(ellipse 125% 72% at 50% 100%, var(--ink-900) 62%, rgba(26,25,22,0) 92%); }
+
+/* ---------- Slide header: wordmark + slide number ---------- */
+.mk-header { position: absolute; top: var(--safe-margin); left: var(--safe-margin); right: var(--safe-margin); display: flex; justify-content: space-between; align-items: baseline; color: var(--on-glass); z-index: 2; }
+.mk-header--ink { color: var(--ink-700); }
+.mk-wordmark { font-size: 26px; font-weight: 700; line-height: 1.2; letter-spacing: 0.14em; text-transform: uppercase; }
+.mk-slide-num { font-size: 26px; font-weight: 500; line-height: 1.2; font-variant-numeric: tabular-nums; }
+
+/* ---------- Cover copy ---------- */
+.mk-cover-copy { position: absolute; left: var(--safe-margin); right: var(--safe-margin); bottom: var(--safe-margin); z-index: 2; }
+.mk-eyebrow, .mk-numword { margin: 0; font-size: 28px; font-weight: 500; line-height: 1.2; letter-spacing: 0.18em; text-transform: uppercase; color: var(--on-glass-eyebrow); }
+.mk-headline { margin: var(--space-3) 0 0; font-size: 120px; font-weight: 800; line-height: 0.98; letter-spacing: -0.03em; text-transform: uppercase; color: var(--on-glass); }
+.mk-cover-copy--ink .mk-eyebrow { color: var(--ink-700); }
+.mk-cover-copy--ink .mk-headline { color: var(--ink-900); }
+
+/* ---------- Swipe cue (cover only) ---------- */
+.mk-swipe { display: flex; align-items: center; justify-content: space-between; margin-top: var(--space-6); }
+.mk-dots { display: flex; gap: var(--space-2); align-items: center; }
+.mk-dot { width: 14px; height: 14px; border-radius: var(--radius-pill); background: var(--on-glass-faint); }
+.mk-dot--active { width: 44px; background: var(--on-glass); }
+.mk-swipe-label { display: inline-flex; align-items: center; gap: var(--space-2); font-size: 26px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--on-glass-eyebrow); }
+.mk-swipe-arrow { display: inline-flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: var(--radius-pill); background: var(--accent); color: var(--ink-900); }
+.mk-swipe-arrow svg { width: 26px; height: 26px; }
+
+/* ---------- Glass card ---------- */
+.mk-glass { position: relative; display: flex; flex-direction: column; padding: var(--space-7); border-radius: var(--radius-glass); background: var(--glass-surface); -webkit-backdrop-filter: blur(var(--glass-blur)); backdrop-filter: blur(var(--glass-blur)); color: var(--on-glass); box-sizing: border-box; }
+/* On a slide: lower ~53% of the frame (720 of 1350), inside the safe margins */
+.mk-slide > .mk-glass { position: absolute; left: var(--safe-margin); right: var(--safe-margin); bottom: var(--safe-margin); height: 720px; z-index: 2; }
+.mk-card-mark { font-size: 24px; font-weight: 700; line-height: 1; letter-spacing: 0.14em; color: var(--on-glass-eyebrow); }
+.mk-card-copy { margin-top: auto; }
+.mk-title { margin: var(--space-3) 0 0; font-size: 60px; font-weight: 700; line-height: 1.05; color: var(--on-glass); }
+.mk-body { margin: var(--space-3) 0 0; font-size: 32px; font-weight: 400; line-height: 1.35; color: var(--on-glass-muted); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* ---------- CTA pill (last slide) ---------- */
+.mk-cta { display: inline-flex; align-items: center; gap: var(--space-2); height: 88px; padding: 0 var(--space-6); border-radius: var(--radius-pill); background: var(--accent); color: var(--ink-900); font-family: var(--font-sans); font-size: 30px; font-weight: 700; letter-spacing: 0.02em; }
+.mk-cta svg { width: 28px; height: 28px; }
+
+/* ---------- Preview helpers (design-system pages only) ---------- */
+.mk-preview { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: flex-start; padding: var(--space-3); font-family: var(--font-sans); }
+.mk-scale { flex: none; overflow: hidden; border-radius: 10px; }
+.mk-scale > * { transform: scale(var(--s)); transform-origin: 0 0; }
+.mk-stage { position: relative; overflow: hidden; }
+.mk-caption { margin: 8px 0 0; font-size: 13px; line-height: 18px; color: var(--ink-700); max-width: 340px; }
